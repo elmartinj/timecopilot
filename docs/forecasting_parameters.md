@@ -64,7 +64,7 @@ tc = TimeCopilot(llm="gpt-4o")
 # here for clarity but can be omitted.
 result = tc.forecast(
     df=df,
-    freq="MS",          
+    freq="MS",
     query=query,
     h=None,             # default, infer from query/df
     seasonality=None,   # default, infer from query/df
