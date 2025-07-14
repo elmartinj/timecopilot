@@ -1,4 +1,19 @@
-"""Test for validating documentation links."""
+"""Test for validating documentation links.
+
+This module contains tests that validate the links in the project documentation.
+It uses the linkchecker tool to verify that links are not broken.
+
+The tests build the documentation using `uv run --group docs mkdocs build` and then
+run linkchecker on the generated site to ensure all links are valid.
+
+There are two test functions:
+1. test_docs_links_are_valid() - Checks internal links only (suitable for CI)
+2. test_docs_external_links_are_valid() - Checks external links (may skip in CI)
+
+Requirements:
+- linkchecker must be installed (included in dev dependencies)
+- The mkdocs documentation must be buildable
+"""
 
 import os
 import subprocess
@@ -9,7 +24,12 @@ import pytest
 
 
 def test_docs_links_are_valid():
-    """Test that all links in the documentation are valid."""
+    """Test that internal links in the documentation are valid.
+    
+    This test builds the documentation and uses linkchecker to validate
+    that all internal links are not broken. External links are not checked
+    to avoid issues with network restrictions in CI environments.
+    """
     # Build the documentation
     build_result = subprocess.run(
         ["uv", "run", "--group", "docs", "mkdocs", "build"],
@@ -73,7 +93,11 @@ def test_docs_links_are_valid():
 
 
 def test_docs_external_links_are_valid():
-    """Test that external links in the documentation are valid."""
+    """Test that external links in the documentation are valid.
+    
+    This test is marked as optional and may fail in CI environments
+    with network restrictions. It checks both internal and external links.
+    """
     # This test is marked as optional and may fail in CI environments
     # with network restrictions
     
