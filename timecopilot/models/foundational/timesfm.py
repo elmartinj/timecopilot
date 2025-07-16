@@ -22,6 +22,7 @@ class TimesFM(Forecaster):
         num_layers: int = 20,
         model_dims: int = 1280,
         alias: str = "TimesFM",
+        max_length: int | None = None,
     ):
         """
         Args:
@@ -45,6 +46,10 @@ class TimesFM(Forecaster):
                 Should match the configuration of the pretrained checkpoint.
             alias (str, optional): Name to use for the model in output DataFrames and
                 logs. Defaults to "TimesFM".
+            max_length (int, optional): Maximum number of observations to use from the
+                end of each time series for training and inference. If None, all
+                observations are used. This can significantly improve inference times
+                for long time series by reducing the amount of data processed.
 
         Notes:
             - Only PyTorch checkpoints are currently supported. JAX is not supported.
@@ -56,6 +61,7 @@ class TimesFM(Forecaster):
             - For more information, see the
               [TimesFM documentation](https://github.com/google-research/timesfm).
         """
+        super().__init__(max_length=max_length)
         if "pytorch" not in repo_id:
             raise ValueError(
                 "TimesFM only supports pytorch models, "
@@ -153,6 +159,7 @@ class TimesFM(Forecaster):
                 identifiers as the input DataFrame.
         """
         freq = self._maybe_infer_freq(df, freq)
+        df = self._maybe_truncate_series(df)
         qc = QuantileConverter(level=level, quantiles=quantiles)
         if qc.quantiles is not None and len(qc.quantiles) != len(DEFAULT_QUANTILES_TFM):
             raise ValueError(
