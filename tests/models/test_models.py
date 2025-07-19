@@ -40,7 +40,7 @@ def test_tabpfn_import_fails():
 
 
 @pytest.mark.parametrize("model", models)
-@pytest.mark.parametrize("freq", ["H", "D", "W-MON", "MS"])
+@pytest.mark.parametrize("freq", ["D", "W-MON"])  # Reduced freq combinations for speed
 def test_freq_inferred_correctly(model, freq):
     n_series = 2
     df = generate_series(
@@ -66,10 +66,10 @@ def test_freq_inferred_correctly(model, freq):
 
 
 @pytest.mark.parametrize("model", models)
-@pytest.mark.parametrize("freq", ["H", "D", "W-MON", "MS"])
+@pytest.mark.parametrize("freq", ["D", "W-MON"])  # Reduced freq combinations for speed
 @pytest.mark.parametrize("h", [1, 12])
 def test_correct_forecast_dates(model, freq, h):
-    n_series = 5
+    n_series = 3  # Reduced from 5 for speed
     df = generate_series(
         n_series,
         freq=freq,
@@ -91,11 +91,11 @@ def test_correct_forecast_dates(model, freq, h):
 
 
 @pytest.mark.parametrize("model", models)
-@pytest.mark.parametrize("freq", ["H", "D", "W-MON", "MS"])
+@pytest.mark.parametrize("freq", ["D", "W-MON"])  # Reduced freq combinations for speed
 @pytest.mark.parametrize("n_windows", [1, 4])
 def test_cross_validation(model, freq, n_windows):
-    h = 12
-    n_series = 5
+    h = 6  # Reduced from 12 for speed
+    n_series = 3  # Reduced from 5 for speed
     df = generate_series(n_series, freq=freq, equal_ends=True)
     cv_df = model.cross_validation(
         df,
@@ -152,8 +152,8 @@ def test_passing_both_level_and_quantiles(model):
 
 @pytest.mark.parametrize("model", models)
 def test_using_quantiles(model):
-    qs = [round(i * 0.1, 1) for i in range(1, 10)]
-    df = generate_series(n_series=3, freq="D")
+    qs = [0.1, 0.5, 0.9]  # Reduced quantiles for speed
+    df = generate_series(n_series=2, freq="D")  # Reduced series for speed
     fcst_df = model.forecast(
         df=df,
         h=2,
@@ -186,7 +186,7 @@ def test_using_quantiles(model):
 
 @pytest.mark.parametrize("model", models)
 def test_using_level(model):
-    level = [0, 20, 40, 60, 80]  # corresponds to qs [0.1, 0.2, ..., 0.9]
+    level = [20, 80]  # Reduced levels for speed
     df = generate_series(n_series=2, freq="D")
     fcst_df = model.forecast(
         df=df,

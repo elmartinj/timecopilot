@@ -1,0 +1,58 @@
+name: Comprehensive Tests
+
+on:
+  schedule:
+    # Run comprehensive tests nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+  push:
+    branches: [main]
+    paths:
+      # Only run when model-related files change
+      - 'timecopilot/models/**'
+      - 'tests/models/test_models_comprehensive.py'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-comprehensive:
+    name: comprehensive test on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Test on fewer Python versions for comprehensive tests
+        python-version: ["3.11", "3.12"]
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6 
+        with:
+          enable-cache: true
+
+      # Cache model weights to speed up foundation model tests
+      - name: Cache model weights
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            ~/.cache/torch
+          key: model-weights-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            model-weights-${{ runner.os }}-${{ matrix.python-version }}-
+            model-weights-${{ runner.os }}-
+
+      - name: Run comprehensive tests
+        run: uv run pytest -m slow -v
+        timeout-minutes: 45
+
+      - name: Test import class
+        run: uv run -- python -c "from timecopilot import TimeCopilot, TimeCopilotForecaster"
