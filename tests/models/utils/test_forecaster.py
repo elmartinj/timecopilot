@@ -15,6 +15,7 @@ def test_maybe_infer_freq(freq):
     df = generate_series(
         n_series=2,
         freq=freq,
+        static_as_categorical=False,
     )
     assert maybe_infer_freq(df, None) == freq
     assert maybe_infer_freq(df, "H") == "H"
@@ -106,6 +107,7 @@ def test_maybe_convert_level_to_quantiles(n_models, quantiles):
         min_length=10,
         n_models=n_models,
         level=qc.level,
+        static_as_categorical=False,
     )
     result_df = qc.maybe_convert_level_to_quantiles(
         df,
@@ -147,6 +149,7 @@ def test_maybe_convert_quantiles_to_level(n_models, level):
         freq="D",
         min_length=10,
         n_models=n_models,
+        static_as_categorical=False,
     )
     for model in models:
         for q in qc.quantiles:  # type: ignore

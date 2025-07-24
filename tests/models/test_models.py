@@ -8,9 +8,7 @@ from ..conftest import models
 
 
 def generate_series(n_series, freq, **kwargs):
-    df = _generate_series(n_series, freq, **kwargs)
-    df["unique_id"] = df["unique_id"].astype(str)
-    return df
+    return _generate_series(n_series, freq, static_as_categorical=False, **kwargs)
 
 
 def test_timegpt_import():

@@ -64,8 +64,7 @@ def generate_exp_dataset(
     freq,
     return_df: bool = False,
 ) -> ExperimentDataset | pd.DataFrame:
-    df = generate_series(n_series, freq=freq, min_length=12)
-    df["unique_id"] = df["unique_id"].astype(str)
+    df = generate_series(n_series, freq=freq, min_length=12, static_as_categorical=False)
     if return_df:
         return df
     return ExperimentDataset(df=df, freq=freq, h=2, seasonality=7)
@@ -136,7 +135,7 @@ def assert_experiment_dataset_equal(
     ],
 )
 def test_parse_params_from_complete_query(freq, h, seasonality):
-    df = generate_series(n_series=5, freq=freq)
+    df = generate_series(n_series=5, freq=freq, static_as_categorical=False)
     query = f"""
         I have a time series with frequency {freq}, 
         seasonality {seasonality}, and horizon {h}.
@@ -179,7 +178,7 @@ def test_parse_params_from_complete_query(freq, h, seasonality):
 )
 def test_parse_params_from_partial_query(freq, h):
     """If the query omits `seasonality`, the parser should infer it from `freq`."""
-    df = generate_series(n_series=3, freq=freq, min_length=12)
+    df = generate_series(n_series=3, freq=freq, min_length=12, static_as_categorical=False)
     query = (
         f"Please forecast the series with a horizon of {h} and frequency {freq}.\n"
         "No other details."
@@ -211,6 +210,7 @@ def test_parse_params_no_query_infers_all():
         n_series=1,  # TimeCopilot only works with one series, at this time
         freq=freq,
         min_length=24,
+        static_as_categorical=False,
     )
     test_model = FunctionModel(response_agent_fn(payload={}))
     exp_dataset = ExperimentDatasetParser(model=test_model).parse(
@@ -242,7 +242,7 @@ def test_parse_params_no_query_infers_all():
     ],
 )
 def test_generate_train_cv_splits(freq, n_windows, h, step_size):
-    df = generate_series(n_series=5, freq=freq)
+    df = generate_series(n_series=5, freq=freq, static_as_categorical=False)
     df["unique_id"] = df["unique_id"].astype(int)
     df_cv = generate_train_cv_splits_from_backtest_splits(
         df=df,

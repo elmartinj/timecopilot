@@ -20,7 +20,7 @@ def models():
 )
 def test_forecaster_forecast(models, freq, h):
     n_uids = 3
-    df = generate_series(n_series=n_uids, freq=freq, min_length=30)
+    df = generate_series(n_series=n_uids, freq=freq, min_length=30, static_as_categorical=False)
     forecaster = TimeCopilotForecaster(models=models)
     fcst_df = forecaster.forecast(df=df, h=h, freq=freq)
     assert len(fcst_df.columns) == 2 + len(models)
@@ -38,7 +38,7 @@ def test_forecaster_forecast(models, freq, h):
 )
 def test_forecaster_cross_validation(models, freq, h, n_windows, step_size):
     n_uids = 3
-    df = generate_series(n_series=n_uids, freq=freq, min_length=30)
+    df = generate_series(n_series=n_uids, freq=freq, min_length=30, static_as_categorical=False)
     forecaster = TimeCopilotForecaster(models=models)
     fcst_df = forecaster.cross_validation(
         df=df,
@@ -60,7 +60,7 @@ def test_forecaster_cross_validation(models, freq, h, n_windows, step_size):
 def test_forecaster_forecast_with_level(models):
     n_uids = 3
     level = [80, 90]
-    df = generate_series(n_series=n_uids, freq="D", min_length=30)
+    df = generate_series(n_series=n_uids, freq="D", min_length=30, static_as_categorical=False)
     forecaster = TimeCopilotForecaster(models=models)
     fcst_df = forecaster.forecast(df=df, h=2, freq="D", level=level)  # type: ignore
     assert len(fcst_df) == 2 * n_uids
@@ -75,7 +75,7 @@ def test_forecaster_forecast_with_level(models):
 def test_forecaster_forecast_with_quantiles(models):
     n_uids = 3
     quantiles = [0.1, 0.9]
-    df = generate_series(n_series=n_uids, freq="D", min_length=30)
+    df = generate_series(n_series=n_uids, freq="D", min_length=30, static_as_categorical=False)
     forecaster = TimeCopilotForecaster(models=models)
     fcst_df = forecaster.forecast(df=df, h=2, freq="D", quantiles=quantiles)
     assert len(fcst_df) == 2 * n_uids
@@ -111,7 +111,7 @@ def test_forecaster_fallback_model():
                 }
             )
 
-    df = generate_series(n_series=1, freq="D", min_length=10)
+    df = generate_series(n_series=1, freq="D", min_length=10, static_as_categorical=False)
     forecaster = TimeCopilotForecaster(
         models=[FailingModel()],
         fallback_model=DummyModel(),
@@ -133,7 +133,7 @@ def test_forecaster_no_fallback_raises():
         def forecast(self, df, h, freq=None, level=None, quantiles=None):
             raise RuntimeError("Intentional failure")
 
-    df = generate_series(n_series=1, freq="D", min_length=10)
+    df = generate_series(n_series=1, freq="D", min_length=10, static_as_categorical=False)
     forecaster = TimeCopilotForecaster(models=[FailingModel()])
     with pytest.raises(RuntimeError, match="Intentional failure"):
         forecaster.forecast(df=df, h=2, freq="D")

@@ -20,7 +20,7 @@ def build_stub_llm(output: dict) -> FunctionModel:  # noqa: D401
 
 @pytest.mark.parametrize("query", [None, "dummy"])
 def test_forecast_returns_expected_output(query):
-    df = generate_series(n_series=1, freq="D", min_length=30)
+    df = generate_series(n_series=1, freq="D", min_length=30, static_as_categorical=False)
     expected_output = {
         "tsfeatures_analysis": "ok",
         "selected_model": "ZeroModel",
