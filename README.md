@@ -81,6 +81,9 @@ TimeCopilot is available on PyPI as [`timecopilot`](https://pypi.org/project/tim
   ```bash
   uv add timecopilot
   ```
+
+**Do note that for Windows, a 3.10 python env is recommended due to the status of some of the required packages builds**
+
 2. Generate an OpenAI API Key:
     1. Create an [openai](https://auth.openai.com/log-in) account.
     2. Visit the [API key](https://platform.openai.com/api-keys) page.
@@ -88,8 +91,14 @@ TimeCopilot is available on PyPI as [`timecopilot`](https://pypi.org/project/tim
     Make sure to copy it, as you’ll need it in the next step. 
 
 3. Export your OpenAI API key as an environment variable by running:
+
+**On Linux/MacOS**
     ```
     export OPENAI_API_KEY="<your-new-secret-key>"
+    ```
+**On Windows**
+    ```
+    set OPENAI_API_KEY="<your-new-secret-key>"
     ```
 
 and that's it!
