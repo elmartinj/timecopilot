@@ -88,6 +88,7 @@ TimeCopilot is available on PyPI as [`timecopilot`](https://pypi.org/project/tim
     Make sure to copy it, as you’ll need it in the next step. 
 
 3. Export your OpenAI API key as an environment variable by running:
+   On Linux: 
     ```
     export OPENAI_API_KEY="<your-new-secret-key>"
     ```
