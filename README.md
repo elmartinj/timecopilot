@@ -107,9 +107,9 @@ TimeCopilot is available on PyPI as [`timecopilot`](https://pypi.org/project/tim
    
 and that's it!
 
-!!! Important
-    - TimeCopilot requires Python 3.10+. Additionally, it currently does not support macOS running on Intel processors (x86_64). If you’re using this setup, you may encounter installation issues with some dependencies like PyTorch. If you need support for this architecture, please create a new issue.
-    - If on Windows, Python 3.10 is recommended due to some of the packages' current architecture. 
+**Important !!!**
+- TimeCopilot requires Python 3.10+. Additionally, it currently does not support macOS running on Intel processors (x86_64). If you’re using this setup, you may encounter installation issues with some dependencies like PyTorch. If you need support for this architecture, please create a new issue.
+- If on Windows, Python 3.10 is recommended due to some of the packages' current architecture. 
 
 
 ---
@@ -121,6 +121,9 @@ Here is an example to test TimeCopilot:
 # Import libraries
 import pandas as pd
 from timecopilot import TimeCopilot
+
+# Use the following line if using a jupyter notebook environment!!!!
+nest_asyncio.apply()
 
 # Load the dataset
 # The DataFrame must include at least the following columns:
@@ -223,7 +226,7 @@ performing model and generated forecasts considering seasonality and trend, aimi
 accuracy and reliability surpassing basic seasonal models.'
 """
 ```
-j
+
 </details>
 
 ---
