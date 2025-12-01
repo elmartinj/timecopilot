@@ -24,7 +24,7 @@ Daily forecasting work is not glamorous. It is the nitty-gritty of managing pipe
 
 Why go to so much trouble to understand the future? As a field we know that [small shifts in starting conditions can create very different outcomes](https://en.wikipedia.org/wiki/Lorenz_system). And we know that uncertainty has structure. When we understand that structure, we make better decisions. There is satisfaction in taking something complex and turning it into a pattern we can recognize. In simple terms, we do it because we enjoy predicting the future. TimeCopilot is our rendition to the field. It reflects both technical progress and an ideal. We want to use all the technology we have to make better predictions.
 
-## We believe the Future Opens Up with LLMs
+## We believe the future opens up with LLMs
 
 Forecasting has moved through several eras. Classical statistics. Probabilistic approaches. Deep learning. And now time series foundation models trained on large and diverse datasets. Each method brings value, but none solves the full problem. Different inputs and assumptions need different tools. Every forecaster knows: [no single model, no matter how powerful, can solve every problem](https://en.wikipedia.org/wiki/No_free_lunch_theorem). Forecasting fuel needs for a high tide water platform is not the same as forecasting train schedules for a small province in Germany. Our work as forecasters has always relied on understanding context and resetting the constraints that make specific pipelines work for specific use cases. But what if we had an automated helper that understood our particular needs? With the rise of agentic systems, we finally have an extra set of hands to take on the repetitive work we have to deal with every day. 
 
