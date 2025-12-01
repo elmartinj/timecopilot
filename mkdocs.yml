@@ -133,7 +133,8 @@ markdown_extensions:
 - tables
 
 plugins:
-  - blog
+  - blog:
+      post_url_format: "{slug}"
   - search
   - autorefs
   - mkdocs-jupyter
