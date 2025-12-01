@@ -26,6 +26,20 @@ Developed with 💙 at [timecopilot.dev](https://timecopilot.dev/).
 
 ---
 
+## 🚀 Key Capabilities
+
+- **Unified Forecasting Layer**. Combines 30+ time-series foundation models (Chronos, Moirai, TimesFM, TimeGPT…) with LLM reasoning for automated model selection and explanation.
+
+- **Natural-Language Forecasting**. Ask questions in plain English and get forecasts, analysis, validation, and model comparisons. No scripts, pipelines, or dashboards needed.
+
+- **One-Line Forecasting**. Run end-to-end forecasts on any dataset in seconds with a single command (`uvx timecopilot forecast <url>`).
+
+## 📰 News
+
+- **#1 on the GIFT-Eval benchmark**. TimeCopilot reached the [top position](https://timecopilot.dev/experiments/gift-eval/) on the global GIFT-Eval benchmark above AWS, Salesforce, Google, IBM, and top universities.  
+- **Accepted at NeurIPS (BERTs Workshop)**. Our [work on agentic forecasting](https://arxiv.org/pdf/2509.00616) was [accepted](https://berts-workshop.github.io/accepted-papers/) at NeurIPS 2025.
+- **New Manifesto: “Forecasting, the Agentic Way”.**  Our [founding essay](https://timecopilot.dev/blog/forecasting-the-agentic-way/) on agentic forecasting, TSFMs, and the future of time series.
+
 ## How It Works
 
 TimeCopilot is a generative agent that applies a systematic forecasting approach using large language models (LLMs) to:
