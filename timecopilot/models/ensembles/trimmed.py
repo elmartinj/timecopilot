@@ -12,10 +12,12 @@ class TrimmedEnsemble(Forecaster):
 
     Purpose
     -------
-    A robust ensemble that aggregates model forecasts using a *trimmed mean* for quantiles
+    A robust ensemble that aggregates model forecasts using a
+    *trimmed mean* for quantiles
     (and optionally for point forecasts), with safety rails:
 
-      1) Fixed trimming per row (unique_id, ds): we first compute the *minimum* number of
+      1) Fixed trimming per row (unique_id, ds): we first compute the
+        *minimum* number of
          available contributors across all requested quantiles for that row (n_min).
          Then we decide how much to trim based on n_min, and apply the same trimming
          intensity to every quantile in that row.
@@ -31,7 +33,8 @@ class TrimmedEnsemble(Forecaster):
     Notes
     -----
     - This ensemble tolerates missing quantile columns per model (point-only models).
-    - When quantiles include 0.5, point forecast is set to the ensemble q50 for coherence.
+    - When quantiles include 0.5, point forecast is set to the ensemble
+    q50 for coherence.
     """
 
     def __init__(
@@ -143,7 +146,8 @@ class TrimmedEnsemble(Forecaster):
         k_by_row = np.zeros(n_rows, dtype=int)
 
         # Decide trimming ONCE per row:
-        # - Compute n_min = min contributors across requested quantiles (after NaN filtering)
+        # - Compute n_min = min contributors across requested
+        # quantiles (after NaN filtering)
         # - If n_min < min_quota -> fallback to median for ALL quantiles in that row
         # - Else compute k = trim_k_from_nmin(n_min)
         for i in range(n_rows):
@@ -192,7 +196,8 @@ class TrimmedEnsemble(Forecaster):
         # Isotonic monotonicity repair:
         # Only valid when:
         #   - row did NOT fallback, AND
-        #   - all requested quantiles exist for that row (no NaNs in the ensemble quantiles)
+        #   - all requested quantiles exist for that row
+        # (no NaNs in the ensemble quantiles)
         # Otherwise: skip (do not "repair" partial/broken vectors).
         ir = IsotonicRegression(increasing=True)
         q_vals = fcst_df[q_cols].to_numpy(dtype=float)
@@ -215,11 +220,12 @@ class TrimmedEnsemble(Forecaster):
         n_fallback = int(fallback_mask.sum())
         if n_fallback > 0:
             print(
-                f"{self.alias}: quantiles fallback->median for {n_fallback}/{n_rows} rows "
-                f"(min_quota={self.min_quota}); isotonic skipped on fallback/NaN rows."
+                f"{self.alias}: quantiles fallback->median \
+                for {n_fallback}/{n_rows} rows "
+                f"(min_quota={self.min_quota}); isotonic \
+                skipped on fallback/NaN rows."
             )
 
         # Convert quantiles to levels if user requested `level=...`
         fcst_df = qc.maybe_convert_quantiles_to_level(fcst_df, models=[self.alias])
         return fcst_df
-
